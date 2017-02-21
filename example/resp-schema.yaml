@@ -1,0 +1,15 @@
+type: object
+properties:
+  code:
+    type: integer
+  data:
+    type: object
+    required: [ip, country]
+    properties:
+      ip:
+        type: string
+        oneOf:
+          - format: ipv4
+          - format: ipv6
+      country:
+        type: string

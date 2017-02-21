@@ -1,0 +1,8 @@
+type: object
+required: [ip]
+properties:
+  ip:
+    type: string
+    oneOf:
+      - format: ipv4
+      - format: ipv6
