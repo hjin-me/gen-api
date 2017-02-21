@@ -3,8 +3,6 @@ let fs = require('fs')
 let path = require('path')
 let devServerConfig = require('./common.config.js')()
 
-const proxyConfig = require('./proxy.config')
-
 devServerConfig.cache = true;
 devServerConfig.devtool = 'inline-source-map';
 // devServerConfig.devtool = 'cheap-eval-source-map';
@@ -35,7 +33,6 @@ devServerConfig.devServer = {
     colors: true,
     chunk: false
   },
-  proxy: proxyConfig,
   host: '0.0.0.0',
   port: PORT
 }

@@ -1,15 +1,48 @@
-type: object
-properties:
-  code:
-    type: integer
-  data:
-    type: object
-    required: [ip, country]
-    properties:
-      ip:
-        type: string
-        oneOf:
-          - format: ipv4
-          - format: ipv6
-      country:
-        type: string
+# 更多其他的参数可以自行补充
+type: array
+items:
+  type: object
+  required: [id, type, created_at]
+  properties:
+    id:
+      type: string
+    created_at:
+      type: string
+      format: date-time
+    type:
+      type: string
+      enum:
+        - CommitCommentEvent
+        - CreateEvent
+        - DeleteEvent
+        - DeploymentEvent
+        - DeploymentStatusEvent
+        - DownloadEvent
+        - FollowEvent
+        - ForkEvent
+        - ForkApplyEvent
+        - GistEvent
+        - GollumEvent
+        - IssueCommentEvent
+        - IssuesEvent
+        - LabelEvent
+        - MemberEvent
+        - MembershipEvent
+        - MilestoneEvent
+        - OrganizationEvent
+        - OrgBlockEvent
+        - PageBuildEvent
+        - ProjectCardEvent
+        - ProjectColumnEvent
+        - ProjectEvent
+        - PublicEvent
+        - PullRequestEvent
+        - PullRequestReviewEvent
+        - PullRequestReviewCommentEvent
+        - PushEvent
+        - ReleaseEvent
+        - RepositoryEvent
+        - StatusEvent
+        - TeamEvent
+        - TeamAddEvent
+        - WatchEvent
