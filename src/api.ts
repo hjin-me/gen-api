@@ -50,7 +50,7 @@ export const genApi: ApiFactory = (conf: ApiConfig) => {
     reqValidate,
     respValidate
   }
-  return (requestBody = null, token: string = '', lang: Lang = 'zh-CN') => {
+  return (requestBody = null, authorization: string = '', lang: Lang = 'zh-CN') => {
     let {method = 'GET', url, withCredentials, reqValidate, respValidate} = api
     if (reqValidate) {
       let errors
@@ -69,7 +69,7 @@ export const genApi: ApiFactory = (conf: ApiConfig) => {
     }
     let headers = new Headers()
     headers.set('Accept-Language', lang)
-    headers.set('X-Request-With', 'gen-api')
+    // headers.set('X-Request-With', 'gen-api')
     let body
 
     if (requestBody) {
@@ -94,8 +94,10 @@ export const genApi: ApiFactory = (conf: ApiConfig) => {
       let ret = (async () => {
         let isLogin = false
         try {
-          headers.set('Authorization', `bearer ${token}`)
-          isLogin = true
+          if (authorization) {
+            headers.set('Authorization', authorization)
+            isLogin = true
+          }
         } catch (err) {
           // nothing
           isLogin = false

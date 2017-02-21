@@ -1,6 +1,8 @@
 import {genApi} from '../src/api'
 
-const url = '/service/getIpInfo.php'
+// const url = 'https://api.github.com/repos/hjin-me/gen-api/events'
+// 本地有代理服务，免得 CORS
+const url = 'https://api.github.com/repos/hjin-me/gen-api/events'
 const options = {
   cached: true,
   withCredentials: false,
@@ -9,53 +11,53 @@ const options = {
 }
 const method = 'GET'
 
-const token = 'token'
+// 这里配置 Authorization 头的内容
+const authorization = ''
 const lang = 'zh-CN'
 
 interface Req {
-  ip: string
+  page?: number
+  per_page?: number
 }
-interface Resp {
-  code: number
-  data: {
-    ip: string
-    country: string
-  }
+interface Event {
+  id: string
+  type: string
+  actor: any
+  repo: any
+  created_at: string
 }
+type Resp = Event[]
 
 const getIpInfo = genApi<Req, Resp>({
   url, method, options
 })
 
-
-let sameIp = getIp()
-getIpInfo({
-  ip: sameIp
-}, token, lang)
+let sameReq = {
+  page: 1, per_page: 2
+}
+getIpInfo(sameReq, authorization, lang)
   .then(data => {
-    console.log('normal response', data)
+    console.log('No.1 request', data)
   })
 
 // 相同的请求只发送一次
-getIpInfo({
-  ip: sameIp
-}, token, lang)
+getIpInfo(sameReq, authorization, lang)
   .then(data => {
-    console.log('normal response', data)
+    console.log('No.2 request', data)
   })
 
-function getIp(): string {
-  return [
-    Math.round(Math.random() * 1000 % 254) + 1,
-    Math.round(Math.random() * 1000 % 254) + 1,
-    Math.round(Math.random() * 1000 % 254) + 1,
-    Math.round(Math.random() * 1000 % 254) + 1
-  ].join('.')
-}
-
+// 请求参数错误
 getIpInfo({
-  ip: '不合法的 ip 格式'
-}, token, lang).catch(err => {
+  page: 0, per_page: 0
+}, authorization, lang).catch(err => {
   console.debug('json validate', err)
   console.error(err)
 })
+
+setTimeout(() => {
+  // 5 秒后查询，从缓存查询，不发送网络请求
+  getIpInfo(sameReq, authorization, lang)
+    .then(data => {
+      console.log('No.3 request', data)
+    })
+}, 5000)

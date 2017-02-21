@@ -1,8 +1,8 @@
 type: object
-required: [ip]
 properties:
-  ip:
-    type: string
-    oneOf:
-      - format: ipv4
-      - format: ipv6
+  page:
+    type: integer
+    minimum: 1
+  per_page:
+    type: integer
+    minimum: 2
